@@ -1,0 +1,22 @@
+  - name: Install Prometheus (Ubuntu)
+    apt:
+      name:
+        - prometheus
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Install Prometheus CentOS
+    yum:
+      name:
+        - epel-release
+        - snapd
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+  - name: enable snapd
+    command: systemctl enable --now snapd.socket
+    when: ansible_distribution == "CentOS"
+
+  - name: Prometheus (CentOS)
+    command: snap install prometheus --classic
+    when: ansible_distribution == "CentOS"
